@@ -12,51 +12,51 @@ contract SharedWallet{
 	//List of owners of the contract, only those can call some of the functions
 	address[] public owners; 
 	mapping(address => bool) public isOwner;
-    uint8 public confirmationNeeded;	
+	uint8 public confirmationNeeded;	
 
 	//Amount of ethers per user
 	mapping(address => uint256) public balancePerUser;
 
-    //Todo : Emit event multiWallet built
-    constructor(address[] memory _owners, uint8 _confirmationNeeded){
-        require(_owners.length > 0, "owners required");
-        require(_confirmationNeeded > 0 && _confirmationNeeded<= _owners.length, "confirmation number invalid");
-        for(uint i;i<_owners.length; i++){
-            require(_owners[i] != address(0),"owner is address(0)");
-            require(!isOwner[_owners[i]],"owner is already listed");
-            
-            owners.push(_owners[i]);
-            isOwner[_owners[i]] = true;
-            
-        }
-        confirmationNeeded = _confirmationNeeded;
-    }
+	//Todo : Emit event multiWallet built
+	constructor(address[] memory _owners, uint8 _confirmationNeeded){
+		require(_owners.length > 0, "owners required");
+		require(_confirmationNeeded > 0 && _confirmationNeeded<= _owners.length, "confirmation number invalid");
+		for(uint i;i<_owners.length; i++){
+			require(_owners[i] != address(0),"owner is address(0)");
+			require(!isOwner[_owners[i]],"owner is already listed");
+			
+			owners.push(_owners[i]);
+			isOwner[_owners[i]] = true;
+			
+		}
+		confirmationNeeded = _confirmationNeeded;
+	}
 
 	//Todo : Emit event receive Eth
-    //Todo : handle receive for someone who isnt owners
-    receive() external payable {
-        if(isOwner[msg.sender]) {
-            balancePerUser[msg.sender] += msg.value;
-        }
-    }
+	//Todo : handle receive for someone who isnt owners
+	receive() external payable {
+		if(isOwner[msg.sender]) {
+			balancePerUser[msg.sender] += msg.value;
+		}
+	}
 
 	//Todo : Emit event withdrawal
-    //Todo : handle % amount of withdraw in function of starting percentage
-    function withdraw(uint256 amount) public {
+	//Todo : handle % amount of withdraw in function of starting percentage
+	function withdraw(uint256 amount) public {
 		require(isOwner[msg.sender],"not an owner");
 		require(amount <= balancePerUser[msg.sender],"amount > user's balance");
-		        
+				
 		balancePerUser[msg.sender] -= amount;
 		require(balancePerUser[msg.sender] >= 0,"user's balance <0");
 
 		(bool success,) = payable(msg.sender).call{value:amount}("");
 		require(success,"transaction failed");
-    }
+	}
 
-    
+	
 
-    /* ========== HELPERS ========== */
-    function getBalance() external view returns (uint) {
+	/* ========== HELPERS ========== */
+	function getBalance() external view returns (uint) {
 		return address(this).balance;
 	}
 
