@@ -41,16 +41,15 @@ contract SharedWallet{
     }
 
 	//Todo : Emit event withdrawal
-    //Todo : handle different amount of withdrawal
     //Todo : handle % amount of withdraw in function of starting percentage
-    function withdraw() public {
+    function withdraw(uint256 amount) public {
 		require(isOwner[msg.sender],"not an owner");
-		require(balancePerUser[msg.sender]>0,"balance = 0");
-        
-		uint256 val = balancePerUser[msg.sender];
-		balancePerUser[msg.sender] = 0;
+		require(amount <= balancePerUser[msg.sender],"amount > user's balance");
+		        
+		balancePerUser[msg.sender] -= amount;
+		require(balancePerUser[msg.sender] >= 0,"user's balance <0");
 
-		(bool success,) = payable(msg.sender).call{value:val}("");
+		(bool success,) = payable(msg.sender).call{value:amount}("");
 		require(success,"transaction failed");
     }
 
