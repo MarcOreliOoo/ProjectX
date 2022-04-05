@@ -12,48 +12,52 @@ contract SharedWallet{
 	//List of owners of the contract, only those can call some of the functions
 	address[] public owners; 
 	mapping(address => bool) public isOwner;
-	uint8 public confirmationNeeded;	
-
-	//Amount of ethers per user
-	mapping(address => uint256) public balancePerUser;
+	uint8 public confirmationNeeded;
+	
+	uint256 public totalShares; //Total of shares 
+	uint256 public totalAlreadyWithdrawed; //Total of ethers already withdrawed
+	
+	mapping(address => uint256) public sharePerUser; //Share per user
+	mapping(address => uint256) public withdrawPerUser; //Amount of withdrawed ethers per user
 
 	//Todo : Emit event multiWallet built
-	constructor(address[] memory _owners, uint8 _confirmationNeeded){
+	constructor(address[] memory _owners, uint256[] memory _shares, uint8 _confirmationNeeded){
+		require(_owners.length == _shares.length, "owners and shares length mismatch");
 		require(_owners.length > 0, "owners required");
 		require(_confirmationNeeded > 0 && _confirmationNeeded<= _owners.length, "confirmation number invalid");
+		
 		for(uint i;i<_owners.length; i++){
 			require(_owners[i] != address(0),"owner is address(0)");
 			require(!isOwner[_owners[i]],"owner is already listed");
+			require(_shares[i] > 0,"share is <= 0");
 			
 			owners.push(_owners[i]);
 			isOwner[_owners[i]] = true;
-			
+			sharePerUser[_owners[i]] = _shares[i];
+			totalShares += _shares[i];
 		}
 		confirmationNeeded = _confirmationNeeded;
 	}
 
 	//Todo : Emit event receive Eth
-	//Todo : handle receive for someone who isnt owners
-	receive() external payable {
-		if(isOwner[msg.sender]) {
-			balancePerUser[msg.sender] += msg.value;
-		}
-	}
+	//Owners can send ethers, a contract, a sell can send ethers...
+	receive() external payable {}
 
 	//Todo : Emit event withdrawal
-	//Todo : handle % amount of withdraw in function of starting percentage
-	function withdraw(uint256 amount) public {
+	//Todo : To Test 
+	function withdraw() public {
 		require(isOwner[msg.sender],"not an owner");
-		require(amount <= balancePerUser[msg.sender],"amount > user's balance");
-				
-		balancePerUser[msg.sender] -= amount;
-		require(balancePerUser[msg.sender] >= 0,"user's balance <0");
+	
+		uint256 toPay = ((address(this).balance + totalAlreadyWithdrawed) * sharePerUser[msg.sender]) / totalShares - withdrawPerUser[msg.sender];
+		require(toPay>0,"Nothing to pay");
 
-		(bool success,) = payable(msg.sender).call{value:amount}("");
+		totalAlreadyWithdrawed += toPay;
+		withdrawPerUser[msg.sender] += toPay;
+
+		(bool success,) = payable(msg.sender).call{value:toPay}("");
 		require(success,"transaction failed");
 	}
 
-	
 
 	/* ========== HELPERS ========== */
 	function getBalance() external view returns (uint) {
