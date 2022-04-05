@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.11;
 
+//["0x5B38Da6a701c568545dCfcB03FcB875f56beddC4","0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2"],[100,100],2
+//1000000000000000000
+
 contract SharedWallet{
 
 	struct Transaction {
@@ -34,7 +37,7 @@ contract SharedWallet{
 			owners.push(_owners[i]);
 			isOwner[_owners[i]] = true;
 			sharePerUser[_owners[i]] = _shares[i];
-			totalShares += _shares[i];
+			totalShares += _shares[i];			
 		}
 		confirmationNeeded = _confirmationNeeded;
 	}
