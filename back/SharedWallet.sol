@@ -4,19 +4,62 @@ pragma solidity 0.8.11;
 contract SharedWallet{
 
 	struct Transaction {
-		address to,
-		uint256 value,
+		address to;
+		uint256 value;
 		//Status...
 	}
 
 	//List of owners of the contract, only those can call some of the functions
 	address[] public owners; 
-	mapping(address => bool) isOwner;
-	
-	//Amount of ethers total and per user
-	uint256 public balance;
-	mapping(address => uint256) balancePerUser;
+	mapping(address => bool) public isOwner;
+    uint8 public confirmationNeeded;	
 
+	//Amount of ethers per user
+	mapping(address => uint256) public balancePerUser;
+
+    //Todo : Emit event multiWallet built
+    constructor(address[] memory _owners, uint8 _confirmationNeeded){
+        require(_owners.length > 0, "owners required");
+        require(_confirmationNeeded > 0 && _confirmationNeeded<= _owners.length, "confirmation number invalid");
+        for(uint i;i<_owners.length; i++){
+            require(_owners[i] != address(0),"owner is address(0)");
+            require(!isOwner[_owners[i]],"owner is already listed");
+            
+            owners.push(_owners[i]);
+            isOwner[_owners[i]] = true;
+            
+        }
+        confirmationNeeded = _confirmationNeeded;
+    }
+
+	//Todo : Emit event receive Eth
+    //Todo : handle receive for someone who isnt owners
+    receive() external payable {
+        if(isOwner[msg.sender]) {
+            balancePerUser[msg.sender] += msg.value;
+        }
+    }
+
+	//Todo : Emit event withdrawal
+    //Todo : handle different amount of withdrawal
+    //Todo : handle % amount of withdraw in function of starting percentage
+    function withdraw() public {
+		require(isOwner[msg.sender],"not an owner");
+		require(balancePerUser[msg.sender]>0,"balance = 0");
+        
+		uint256 val = balancePerUser[msg.sender];
+		balancePerUser[msg.sender] = 0;
+
+		(bool success,) = payable(msg.sender).call{value:val}("");
+		require(success,"transaction failed");
+    }
+
+    
+
+    /* ========== HELPERS ========== */
+    function getBalance() external view returns (uint) {
+		return address(this).balance;
+	}
 
 
 }
