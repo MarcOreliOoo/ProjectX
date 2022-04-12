@@ -208,3 +208,15 @@ contract MultiSigWallet {
 		return (transaction.to, transaction.value, transaction.data, transaction.executed, transaction.numConfirmations);
 	}
 }
+
+contract TestContract {
+    uint public i;
+
+    function callMe(uint j, uint y) public {
+        i += j+y;
+    }
+
+    function getData(uint x, uint y) public pure returns (bytes memory) {
+        return abi.encodeWithSignature("callMe(uint256,uint256)", x, y);
+    }
+}
