@@ -4,3 +4,10 @@ To Explore :
 * or selector ?
 * proxy openzeppelin
 * explore DAO
+* Test 721 multi sig
+* Parcours utilisateurs
+* API Opensea
+* API Rarible
+
+
+
