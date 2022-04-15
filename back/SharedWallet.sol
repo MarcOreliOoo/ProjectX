@@ -211,12 +211,32 @@ contract MultiSigWallet {
 
 contract TestContract {
     uint public i;
+	string public str;
 
-    function callMe(uint j, uint y) public {
+	function callMe(uint x) public {
+        i += x;
+    }
+
+    function getData(uint x) public pure returns (bytes memory) {
+        return abi.encodeWithSignature("callMe(uint256)", x);
+    }
+
+
+    function callMe1(uint j, uint y) public {
         i += j+y;
     }
 
-    function getData(uint x, uint y) public pure returns (bytes memory) {
-        return abi.encodeWithSignature("callMe(uint256,uint256)", x, y);
+    function getData1(uint x, uint y) public pure returns (bytes memory) {
+        return abi.encodeWithSignature("callMe1(uint256,uint256)", x, y);
+    }
+
+	
+    function callMe2(uint x, string memory y) public {
+        i=x;
+		str=y;
+    }
+
+    function getData2(uint x, string memory y) public pure returns (bytes memory) {
+        return abi.encodeWithSignature("callMe2(uint256,string)", x, y);
     }
 }
