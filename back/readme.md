@@ -10,6 +10,13 @@ To Explore :
 * API Rarible
 * GITHooks, prettier, CZ features... 
 
+Functionning :
+* Buy possibility : 
+  * Direct buy from ERC721/ERC1155 contract
+  * Buy from a platfom (OpenSea) -> direct or bid ?
+  * Buy from other platform cf PartyBid IMarketWrapper.sol
+* Who is the NFT keeper, the SharedWallet contract ?
+
 To check :
 * partybid.app
 
