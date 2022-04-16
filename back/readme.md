@@ -7,7 +7,7 @@ To Explore :
 * Test 721 multi sig
 * Parcours utilisateurs
 * API Opensea
-* API Rarible
+* Others APIs: Rarible / X2Y2 / looksrare...
 * GITHooks, prettier, CZ features... 
 
 Functionning :
