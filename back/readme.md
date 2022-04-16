@@ -17,6 +17,9 @@ Functionning :
   * Buy from other platform cf PartyBid IMarketWrapper.sol
 * Who is the NFT keeper, the SharedWallet contract ?
 
+Do not forget :
+* IERC721Receiver to bne sure our contract can handle 721 and the safeTransferFrom works + IERC721.onERC721Received.selector if we want to sale that NFT to another contract ?
+
 To check :
 * partybid.app
 
