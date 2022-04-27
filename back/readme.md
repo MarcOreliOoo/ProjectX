@@ -24,3 +24,8 @@ Next steps :
 * Organisation GIT
 * Buy ERC20 en direct
 * GITHooks, prettier, CZ features...
+
+
+* mkdir HardhatProjects\00_Commown
+* npm install --global yarn
+* 
