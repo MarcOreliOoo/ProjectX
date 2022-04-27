@@ -26,6 +26,7 @@ Next steps :
 * GITHooks, prettier, CZ features...
 
 
+Todo AAL :
 * mkdir HardhatProjects\00_Commown
 * npm install --global yarn
 * 
