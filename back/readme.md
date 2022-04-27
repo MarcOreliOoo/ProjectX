@@ -28,5 +28,7 @@ Next steps :
 
 Todo AAL :
 * mkdir HardhatProjects\00_Commown
+* git clone -o seed -b main --single-branch https://github.com/YM-Voting-System/react-interface.git
 * npm install --global yarn
-* 
+* cd react-interface
+* yarn install
