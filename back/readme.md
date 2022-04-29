@@ -34,3 +34,7 @@ Todo AAL :
 * yarn install
 * https://forum.openzeppelin.com/t/uups-proxies-tutorial-solidity-javascript/7786
 * https://r48b1t.medium.com/universal-upgrade-proxy-proxyfactory-a-modern-walkthrough-22d293e369cb
+
+
+Ressources :
+* OZ Deploying more efficient proxy https://www.youtube.com/watch?v=kWUDTZhxKZI
