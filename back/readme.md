@@ -33,3 +33,4 @@ Todo AAL :
 * cd react-interface
 * yarn install
 * https://forum.openzeppelin.com/t/uups-proxies-tutorial-solidity-javascript/7786
+* https://r48b1t.medium.com/universal-upgrade-proxy-proxyfactory-a-modern-walkthrough-22d293e369cb
