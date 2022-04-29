@@ -32,3 +32,4 @@ Todo AAL :
 * npm install --global yarn
 * cd react-interface
 * yarn install
+* https://forum.openzeppelin.com/t/uups-proxies-tutorial-solidity-javascript/7786
