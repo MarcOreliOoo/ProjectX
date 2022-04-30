@@ -38,3 +38,4 @@ Todo AAL :
 
 Ressources :
 * OZ Deploying more efficient proxy https://www.youtube.com/watch?v=kWUDTZhxKZI
+* https://r48b1t.medium.com/universal-upgrade-proxy-proxyfactory-a-modern-walkthrough-22d293e369cb****
