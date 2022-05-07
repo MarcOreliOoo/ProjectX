@@ -4,8 +4,13 @@ pragma solidity 0.8.13;
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 
-contract Commown is Initializable, UUPSUpgradeable, OwnableUpgradeable  {
+contract CommownSW is Initializable, UUPSUpgradeable, OwnableUpgradeable, IERC721Receiver  {
+	//IER1155
+	//IERC721
+	//ERC1155Receiver
+	//ERC721Receiver
 
 	event WalletCreated(address indexed creator, address[] owners, uint256 confirmationNeeded);
 	event Deposit(address indexed sender, uint256 amount, uint256 balance);
@@ -13,26 +18,38 @@ contract Commown is Initializable, UUPSUpgradeable, OwnableUpgradeable  {
     //Constant can be inizialized even with Proxies
     string public constant VERSION = "0.0.1";
 
-	struct Pocket {
-		uint256 pocketID; //Pocket ID
-		uint256 pocketEndTS; //End timestamp for adding shares to the pocket
-		uint256 totalShares; //Total of shares to reach
-		mapping(address => uint256) sharePerUser; //Share per user
+	enum PocketStatus {
+		Proposed,
+		Signing,
+		Executed
 	}
-	Pocket[] public pockets;
 
+
+	struct Pocket {
+		address to; //To whom the pocket will be buy
+		bytes data; //Data on chain representing the transaction
+		PocketStatus pStatus; //Status of the pocket
+		uint256 totalAmount; //Total amount to reach
+    }
+	Pocket[] public pockets;
+	mapping(uint256 => mapping(address => bool)) public isSigned; //poketID => commownSW owner => bool
+    mapping(uint256 => mapping(address => uint256)) public sharePerUser; //poketID => commownSW owner => Share per user
+	mapping(uint256 => mapping(address => mapping (uint256 => uint256))) public items721; //poketID => ERC721 => ID => Quantity
+	//mapping(uint256 => mapping(address => uint256)) items20; //poketID => ERC20 => amount
+    //mapping(uint256 => mapping(address => mapping(uint256 => uint256))) items1155; //poketID => ERC1155 => ID => amount   
+	
 
 	//Component of a CommownWallet : List of owners of the contract, only those can call some of the functions
 	address[] public owners; 
 	mapping(address => bool) public isOwner;
 	uint8 public confirmationNeeded;
 
+
+	//Global Balance
+	uint256 public globalTotalWithdrawed; //Total of ethers already withdrawed
 	mapping(address => uint256) public balancePerUser; //Balance in Wei per User
-	
-	
-	
-	uint256 public totalAlreadyWithdrawed; //Total of ethers already withdrawed
-	mapping(address => uint256) public withdrawPerUser; //Amount of withdrawed ethers per user
+	mapping(address => uint256) public globalWithdrawPerUser; //Amount of withdrawed ethers per user
+
 
 	modifier isCommownOwner(address _sender){
 		require(isOwner[_sender],"not an owner");
@@ -40,7 +57,7 @@ contract Commown is Initializable, UUPSUpgradeable, OwnableUpgradeable  {
 	}
 
     /// @dev : function initialize
-    function initialize(address[] memory _owners, uint8 _confirmationNeeded) initializer public {
+    function initialize(address[] memory _owners, uint8 _confirmationNeeded) public initializer {
 		require(_owners.length > 0, "owners required");
 		require(_confirmationNeeded > 0 && _confirmationNeeded<= _owners.length, "confirmation number invalid");
 		
@@ -64,25 +81,48 @@ contract Commown is Initializable, UUPSUpgradeable, OwnableUpgradeable  {
 
     function _authorizeUpgrade(address newImplementation) internal override onlyOwner {}
 
-	//Todo : Emit event receive Eth
+	function onERC721Received(address, address, uint256, bytes memory) public virtual override returns (bytes4) {
+    	return this.onERC721Received.selector;
+    }
+
 	//Owners can send ethers, a contract, a sell can send ethers...
 	receive() external payable isCommownOwner(msg.sender) {
 		balancePerUser[msg.sender] += msg.value;
 		emit Deposit(msg.sender, msg.value, address(this).balance);
 	}
 
-	function createPocket(uint256 _ts, uint256 _amount) pure public isCommownOwner(msg.sender){
-		uint256 _pocketID = pockets.length;
-		pockets.push(Pocket({pocketID: _pocketID, pocketEndTS: _ts, totalShares: _amount, executed: false, numConfirmations: 0}));
+	// proposePocket
+	// signPocket
+	// fundPocket
+	// revokeFundPocket
+	// revokeSignPocket
+	// executePocket == buy
+	// sellPocket
+	// withdrawPocket
+	// withDrawGlobal
+	// allMethodForERC721
 
-		mapping(address => uint256) sharePerUser;
-		emit SubmitTransaction(msg.sender, txIndex, _to, _value, _data);
+	
+
+	function proposePocket(address _to, bytes memory _data, uint256 _totalAmount) external isCommownOwner(msg.sender){
+		uint256 _pocketID = pockets.length;
+		
+		pockets.push(Pocket({
+			to:_to,
+			data: _data,
+			pStatus: PocketStatus.Proposed,
+			,,
+			totalAmount:_totalAmount,
+			,,,,,
+		}));
+
+		emit ProposePocket(msg.sender, txIndex, _to, _value, _data);
 	}
 
 
 	//Todo : Emit event withdrawal
 	//Todo : To Test 
-	function withdraw() public isCommownOwner(msg.sender){
+	/* function withdraw() public isCommownOwner(msg.sender){
 		
 	
 		uint256 toPay = ((address(this).balance + totalAlreadyWithdrawed) * sharePerUser[msg.sender]) / totalShares - withdrawPerUser[msg.sender];
@@ -93,5 +133,5 @@ contract Commown is Initializable, UUPSUpgradeable, OwnableUpgradeable  {
 
 		(bool success,) = payable(msg.sender).call{value:toPay}("");
 		require(success,"transaction failed");
-	}
+	} */
 }
