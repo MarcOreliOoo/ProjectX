@@ -14,6 +14,7 @@ contract CommownSW is Initializable, UUPSUpgradeable, OwnableUpgradeable, IERC72
 
 	event WalletCreated(address indexed creator, address[] owners, uint256 confirmationNeeded);
 	event Deposit(address indexed sender, uint256 amount, uint256 userBalance, uint256 balance);
+	event Withdraw(address indexed sender, uint256 amount, uint256 userBalance, uint256 balance);
 	event ProposePocket(address indexed sender, uint256 pocketID, address to, bytes data, PocketStatus,  uint256 totalAmount, uint[] sharePerUser);
 
     //Constant can be inizialized even with Proxies
@@ -103,9 +104,9 @@ contract CommownSW is Initializable, UUPSUpgradeable, OwnableUpgradeable, IERC72
 	// allMethodForERC721
 
 
-	function proposePocket(address _to, bytes memory _data, uint256 _totalAmount, address[] memory _users, uint256[] memory _sharePerUser) external {
+	function proposePocket(address _to, bytes memory _data, uint256 _totalAmount, address[] memory _users, uint256[] memory _sharePerUser) external isCommownOwner(msg.sender){
 		require(_users.length > 0, "owners required");
-		require(_users.length == _sharePerUser.length, "owners and shares length mismatch");
+		require(_users.length == _sharePerUser.length, "length mismatch");
 				
 		uint256 _pocketID = pockets.length;
         pockets.push(Pocket(_to,_data,PocketStatus.Proposed,_totalAmount));
@@ -119,19 +120,36 @@ contract CommownSW is Initializable, UUPSUpgradeable, OwnableUpgradeable, IERC72
 	}
 
 
-
-	//Todo : Emit event withdrawal
-	//Todo : To Test 
-	/* function withdraw() public isCommownOwner(msg.sender){
+	//Callable after a pocketSell
+	function withdrawPocket(uint256 _pocketID, uint256 _sellPrice) private {
 		
-	
+		//100 - 100*60/100 = 100 - 60 = 40
+		//HEREEEEEEEEEEEEEEEEEEEEEE
+		uint256 totalWithdrawed;
+		uint256 toPay;
+		for(uint i;i<)
+			toPay = (totalWithdrawed + totalsharePerUser[_pocketID][msg.sender])
+
 		uint256 toPay = ((address(this).balance + totalAlreadyWithdrawed) * sharePerUser[msg.sender]) / totalShares - withdrawPerUser[msg.sender];
 		require(toPay>0,"Nothing to pay");
 
 		totalAlreadyWithdrawed += toPay;
 		withdrawPerUser[msg.sender] += toPay;
+	}
 
-		(bool success,) = payable(msg.sender).call{value:toPay}("");
+
+	/// @notice Withdraw ETH from the CommownSharedWallet. Has to be a CommownShareWallet owner.
+	/// @dev Withdraw an _amount in wei from the CommownSharedWallet. Has to be a CommownShareWallet owner. 
+	/// @param _amount of ETH to withdraw
+	function withdraw(uint256 _amount) public isCommownOwner(msg.sender){
+		require(_amount<=balancePerUser[msg.sender],"too big amount");
+
+		uint256 newBalance = balancePerUser[msg.sender] - _amount;
+		balancePerUser[msg.sender]=newBalance;
+		
+		(bool success,) = payable(msg.sender).call{value:_amount}("");
 		require(success,"transaction failed");
-	} */
+		
+		emit Withdraw(msg.sender, _amount, newBalance, address(this).balance);
+	}
 }
