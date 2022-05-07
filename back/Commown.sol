@@ -105,12 +105,14 @@ contract CommownSW is Initializable, UUPSUpgradeable, OwnableUpgradeable, IERC72
 	
 
 	function proposePocket(address _to, bytes memory _data, uint256 _totalAmount, address[] memory _users, uint256[] memory _sharePerUser) external {
-		//require(_users appartient bien au CSW && nb de _users = nb _shares)
-
+		require(_users.length > 0, "owners required");
+		require(_users.length == _sharePerUser.length, "owners and shares length mismatch");
+				
 		uint256 _pocketID = pockets.length;
         pockets.push(Pocket(_to,_data,PocketStatus.Proposed,_totalAmount));
         
 		for(uint8 i;i<_users.length;i++){
+			require(isOwner[_users[i]],"not an owner");
 			sharePerUser[_pocketID][_users[i]]=_sharePerUser[i];
 		}
 
