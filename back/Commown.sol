@@ -13,7 +13,7 @@ contract CommownSW is Initializable, UUPSUpgradeable, OwnableUpgradeable, IERC72
 	//ERC721Receiver
 
 	event WalletCreated(address indexed creator, address[] owners, uint256 confirmationNeeded);
-	event Deposit(address indexed sender, uint256 amount, uint256 balance);
+	event Deposit(address indexed sender, uint256 amount, uint256 userBalance, uint256 balance);
 	event ProposePocket(address indexed sender, uint256 pocketID, address to, bytes data, PocketStatus,  uint256 totalAmount, uint[] sharePerUser);
 
     //Constant can be inizialized even with Proxies
@@ -89,7 +89,7 @@ contract CommownSW is Initializable, UUPSUpgradeable, OwnableUpgradeable, IERC72
 	//Owners can send ethers, a contract, a sell can send ethers...
 	receive() external payable isCommownOwner(msg.sender) {
 		balancePerUser[msg.sender] += msg.value;
-		emit Deposit(msg.sender, msg.value, address(this).balance);
+		emit Deposit(msg.sender, msg.value, balancePerUser[msg.sender], address(this).balance);
 	}
 
 	// signPocket
@@ -102,7 +102,6 @@ contract CommownSW is Initializable, UUPSUpgradeable, OwnableUpgradeable, IERC72
 	// withDrawGlobal
 	// allMethodForERC721
 
-	
 
 	function proposePocket(address _to, bytes memory _data, uint256 _totalAmount, address[] memory _users, uint256[] memory _sharePerUser) external {
 		require(_users.length > 0, "owners required");
