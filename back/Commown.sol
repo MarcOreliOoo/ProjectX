@@ -14,6 +14,7 @@ contract CommownSW is Initializable, UUPSUpgradeable, OwnableUpgradeable, IERC72
 
 	event WalletCreated(address indexed creator, address[] owners, uint256 confirmationNeeded);
 	event Deposit(address indexed sender, uint256 amount, uint256 balance);
+	event ProposePocket(address indexed sender, uint256 pocketID, address to, bytes data, PocketStatus,  uint256 totalAmount, uint[] sharePerUser);
 
     //Constant can be inizialized even with Proxies
     string public constant VERSION = "0.0.1";
@@ -91,7 +92,6 @@ contract CommownSW is Initializable, UUPSUpgradeable, OwnableUpgradeable, IERC72
 		emit Deposit(msg.sender, msg.value, address(this).balance);
 	}
 
-	// proposePocket
 	// signPocket
 	// fundPocket
 	// revokeFundPocket
@@ -104,20 +104,19 @@ contract CommownSW is Initializable, UUPSUpgradeable, OwnableUpgradeable, IERC72
 
 	
 
-	function proposePocket(address _to, bytes memory _data, uint256 _totalAmount) external isCommownOwner(msg.sender){
-		uint256 _pocketID = pockets.length;
-		
-		pockets.push(Pocket({
-			to:_to,
-			data: _data,
-			pStatus: PocketStatus.Proposed,
-			,,
-			totalAmount:_totalAmount,
-			,,,,,
-		}));
+	function proposePocket(address _to, bytes memory _data, uint256 _totalAmount, address[] memory _users, uint256[] memory _sharePerUser) external {
+		//require(_users appartient bien au CSW && nb de _users = nb _shares)
 
-		emit ProposePocket(msg.sender, txIndex, _to, _value, _data);
+		uint256 _pocketID = pockets.length;
+        pockets.push(Pocket(_to,_data,PocketStatus.Proposed,_totalAmount));
+        
+		for(uint8 i;i<_users.length;i++){
+			sharePerUser[_pocketID][_users[i]]=_sharePerUser[i];
+		}
+
+		emit ProposePocket(msg.sender, _pocketID, _to, _data, PocketStatus.Proposed, _totalAmount, _sharePerUser);
 	}
+
 
 
 	//Todo : Emit event withdrawal
