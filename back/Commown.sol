@@ -19,7 +19,7 @@ contract CommownSW is Initializable, UUPSUpgradeable, OwnableUpgradeable, IERC72
 
     //Constant can be inizialized even with Proxies
     string public constant VERSION = "0.0.1";
-
+ 
 	enum PocketStatus {
 		Proposed,
 		Signing,
