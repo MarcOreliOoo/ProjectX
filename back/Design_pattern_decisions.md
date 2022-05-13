@@ -23,14 +23,20 @@ The process is always the same :
 
 > One main contract for n proxies.
  
-The main contract contains all the logic `logic contract` and proxies contain state variable of the logic contract.
-So, the first step was to choose, which type of proxy we do need.
+The main contract contains all the logic of the dapp, and proxies contain state variables of the logic contract.  
+So, the first step was to choose, which type of proxy we need.
 
 ### Different type of proxies <a name="different-proxy"></a>
 There are several proxy models, each adapted to different use cases.
 #### Clone
-The "clone" one is the cheapest one, but it's not really a proxy for upgradable
+The "clone" one is the cheapest one, but it's not really a proxy for upgradable purpose. The only thing it does is cloning contract functionality in an immutable way and delegate all calls to the main contract. So it does not allow for upgrade the logic contract.  
+It is very usefull once you know:
+- your contract is safe and well designed
+- your contract is mature and you pretty sure it will not need any upgrades
+
+See [eip-1167](https://eips.ethereum.org/EIPS/eip-1167)
 #### Transparent
+The transparent proxy is the normal proxy 
 #### Universal
 #### Beacon
 
