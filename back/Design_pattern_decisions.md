@@ -13,16 +13,29 @@ Explaination of the `Commown Shared Wallet`'s design pattern
   -   [Heritance](#csw-heritance)
 
 ## Main structure <a name="main-structure"></a>
+The Commown Shared Wallet contracts is base on the proxy concept and composed of two contracts.
 
 ### Why a proxy contract ? <a name="why-a-proxy"></a>
+Contracts are immutable once deployed on the blockchain. That's the safety point every one wants to reach.
+But, on the other hand, sometimes, it would be nice to be able to update contract for bug fixing, or patching, or product improvements ask by your community (DAO like). Moreover, as our contract will handle money, it is preferable to have that possibility.
+Obviously, all the contract is not updatable and we have to follow some guide lines detailed above.
+The process is always the same : 
 
-### Different type of proxy <a name="different-proxy"></a>
+> One main contract for n proxies.
+ 
+The main contract contains all the logic `logic contract` and proxies contain state variable of the logic contract.
+So, the first step was to choose, which type of proxy we do need.
+
+### Different type of proxies <a name="different-proxy"></a>
+There are several proxy models, each adapted to different use cases.
 #### Clone
+The "clone" one is the cheapest one, but it's not really a proxy for upgradable
 #### Transparent
 #### Universal
 #### Beacon
 
 ### OpenZeppelin plugin <a name="oz-plugin"></a>
+OpenZeppelin Upgrades solves this apparent contradiction by providing an easy to use, simple, robust, and opt-in upgrade mechanism for smart contracts that can be controlled by any type of governance, be it a multi-sig wallet, a simple address or a complex DAO.
 #### Frontend
 #### For future updates
 
