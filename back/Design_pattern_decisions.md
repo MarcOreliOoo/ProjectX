@@ -22,12 +22,16 @@ Obviously, all the contract is not updatable and we have to follow some guide li
 The process is always the same : 
 
 > One main contract for n proxies.
- 
-The main contract contains all the logic of the dapp, and proxies contain state variables of the logic contract.  
+> All proxy patterns depend on an EVM primitive, the DELEGATECALL opcode.
+
+> Include here schema of difference between "call" and "delegate call"
+
+The main contract contains all the logic of the dapp, and proxies contain state variables of the logic contract.
 So, the first step was to choose, which type of proxy we need.
 
 ### Different type of proxies <a name="different-proxy"></a>
 There are several proxy models, each adapted to different use cases.
+
 #### Clone
 The "clone" one is the cheapest one, but it's not really a proxy for upgradable purpose. The only thing it does is cloning contract functionality in an immutable way and delegate all calls to the main contract. So it does not allow for upgrade the logic contract.  
 It is very usefull once you know:
@@ -35,9 +39,16 @@ It is very usefull once you know:
 - your contract is mature and you pretty sure it will not need any upgrades
 
 See [eip-1167](https://eips.ethereum.org/EIPS/eip-1167)
+
 #### Transparent
-The transparent proxy is the normal proxy 
+The transparent proxy is based on the normal proxy pattern. It is called transparent by OpenZeppelin because of the "non conflit" tools it provides.
+It relies on the caller before the function selector, then the transparent proxy recognizes if it has to delegate the call to the main logic contract as if a user was calling a function, and vice versa when it's the owner of the proxy. No conflict then, it's "transparent".
+Downside of that proxy is each call requires an additional read from storage to load the admin address which is gas costly. Then, there is another pattern...  
+See [transparent proxies](https://blog.openzeppelin.com/the-state-of-smart-contract-upgrades/#transparent-proxies)
+
 #### Universal
+Universal upgradeable proxiy standard or UUPS as it stands, comes from [eip-1822](https://eips.ethereum.org/EIPS/eip-1822). It is almost the same pattern than the transparent one, but it places upgrade logic in the implementation contract instead of the proxy itself. Then, it avoids the additionnal storage read.
+Since the proxy uses delegate calls, if the inmplementation address is define in the logic contract, then, it is in the proxy storage.
 #### Beacon
 
 ### OpenZeppelin plugin <a name="oz-plugin"></a>
