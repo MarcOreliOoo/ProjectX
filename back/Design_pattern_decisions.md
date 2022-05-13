@@ -33,11 +33,7 @@ So, the first step was to choose, which type of proxy we need.
 There are several proxy models, each adapted to different use cases.
 
 #### Clone
-The "clone" one is the cheapest one, but it's not really a proxy for upgradable purpose. The only thing it does is cloning contract functionality in an immutable way and delegate all calls to the main contract. So it does not allow for upgrade the logic contract.  
-It is very usefull once you know:
-- your contract is safe and well designed
-- your contract is mature and you pretty sure it will not need any upgrades
-
+The "clone" one is the cheapest one, but it's not really a proxy for upgradable purpose. The only thing it does is cloning contract functionality in an immutable way and delegate all calls to the main contract. So it does not allow for upgrade the logic contract. Thus, it is very usefull once you know taht our contract is safe and well designed or when your contract is mature and you are pretty sure it will not need any further upgrades.  
 See [eip-1167](https://eips.ethereum.org/EIPS/eip-1167)
 
 #### Transparent
@@ -52,10 +48,13 @@ Since the proxy uses delegate calls, if the implementation address is define in 
 See [transparent vs uups](https://docs.openzeppelin.com/contracts/4.x/api/proxy#transparent-vs-uups) and [eip-1967](https://eips.ethereum.org/EIPS/eip-1967)
 
 #### Beacon
-Beacon is the one we hesitate to choose. UUPS is costless than transparent, as seen above, because of the upgradeable logic is in the logic contract. But, when several proxies are deployed, if you want to upgrade the address of the logic contract, you have to upgrade through all proxies. 
+Beacon is the one we hesitate to choose. UUPS is costless than transparent, as seen above, because of the upgradeable logic is in the logic contract. But, when several proxies are deployed, if you want to upgrade the address of the logic contract, you have to upgrade through all proxies. Beacon is a solution for this problem, but beacon is also costly than UUPS. So we have chosen UUPS.  
+See [beacon](https://blog.openzeppelin.com/the-state-of-smart-contract-upgrades/#beacons)
 
 ### OpenZeppelin plugin <a name="oz-plugin"></a>
-OpenZeppelin Upgrades solves this apparent contradiction by providing an easy to use, simple, robust, and opt-in upgrade mechanism for smart contracts that can be controlled by any type of governance, be it a multi-sig wallet, a simple address or a complex DAO.
+OpenZeppelin Upgrades plugin handle the difficulty of upgrading a smart contract. Indeed, there are some rules to follow.
+
+solves this apparent contradiction by providing an easy to use, simple, robust, and opt-in upgrade mechanism for smart contracts that can be controlled by any type of governance, be it a multi-sig wallet, a simple address or a complex DAO.
 #### Frontend
 #### For future updates
 
