@@ -44,12 +44,15 @@ See [eip-1167](https://eips.ethereum.org/EIPS/eip-1167)
 The transparent proxy is based on the normal proxy pattern. It is called transparent by OpenZeppelin because of the "non conflit" tools it provides.
 It relies on the caller before the function selector, then the transparent proxy recognizes if it has to delegate the call to the main logic contract as if a user was calling a function, and vice versa when it's the owner of the proxy. No conflict then, it's "transparent".
 Downside of that proxy is each call requires an additional read from storage to load the admin address which is gas costly. Then, there is another pattern...  
-See [transparent proxies](https://blog.openzeppelin.com/the-state-of-smart-contract-upgrades/#transparent-proxies)
+See [transparent proxies](https://blog.openzeppelin.com/the-state-of-smart-contract-upgrades/#transparent-proxies) and [eip-1967](https://eips.ethereum.org/EIPS/eip-1967)
 
 #### Universal
 Universal upgradeable proxiy standard or UUPS as it stands, comes from [eip-1822](https://eips.ethereum.org/EIPS/eip-1822). It is almost the same pattern than the transparent one, but it places upgrade logic in the implementation contract instead of the proxy itself. Then, it avoids the additionnal storage read.
-Since the proxy uses delegate calls, if the inmplementation address is define in the logic contract, then, it is in the proxy storage.
+Since the proxy uses delegate calls, if the implementation address is define in the logic contract, then, it "is" in the proxy storage.  
+See [transparent vs uups](https://docs.openzeppelin.com/contracts/4.x/api/proxy#transparent-vs-uups) and [eip-1967](https://eips.ethereum.org/EIPS/eip-1967)
+
 #### Beacon
+Beacon is the one we hesitate to choose. UUPS is costless than transparent, as seen above, because of the upgradeable logic is in the logic contract. But, when several proxies are deployed, if you want to upgrade the address of the logic contract, you have to upgrade through all proxies. 
 
 ### OpenZeppelin plugin <a name="oz-plugin"></a>
 OpenZeppelin Upgrades solves this apparent contradiction by providing an easy to use, simple, robust, and opt-in upgrade mechanism for smart contracts that can be controlled by any type of governance, be it a multi-sig wallet, a simple address or a complex DAO.
