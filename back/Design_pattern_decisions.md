@@ -2,13 +2,13 @@
 
 Explaination of the `Commown Shared Wallet`'s design pattern
 
--   [Main structure](#main-structure)
+-   [Proxy pattern](#proxy-pattern)
     -   [Why a proxy contract ?](#why-a-proxy)
     -   [Different type of proxy](#different-proxy)
     -   [OpenZeppelin plugin](#oz-plugin)
     -   [CSW - Proxy factory contract](#csw-proxy-factory)
     -   [CSW - Logic contract](#csw-logic-contract)
--   [Focus on CSW Contract](#focus-csw-logic-contract)
+-   [Access restriction](#focus-csw-logic-contract)
   -   [Features](#csw-features)
   -   [Heritance](#csw-heritance)
 
