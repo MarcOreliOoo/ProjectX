@@ -11,8 +11,8 @@ Explaination of the `Commown Shared Wallet`'s design pattern
 -   [Security and behavioral pattern](#security-pattern)
     -   [Guard check, behavioral check and state machine](#detailed-pattern)
     -   [Access restriction](#access-pattern)
--   [Features](#csw-features)
--   [Heritance](#csw-heritance)
+-   [Features & heritance](#csw-features)
+
 
 # Proxy pattern <a name="proxy-pattern"></a>
 The Commown Shared Wallet contracts is base on the proxy concept and composed of two contracts.
@@ -109,15 +109,13 @@ As shown for the proxy upgrade, there are some access restriction guaranted by t
         _;
     }`
 
-# Features <a name="csw-features"></a>
+# Features and heritance <a name="csw-features"></a>
 ## Deposit/Withdraw Ether
 Providing ether to the wallet by the owners will permit future transactions. Obviously they can withdraw too.
 ## Creation of a "Pocket"
 A pocket is a Struct defining a futur investment pocket. A pocket has to be defined by the participants and then will be executed.
 ## ERC20, ERC721 and ERC1155 receiver
 As the pocket management will handle buying of different kind of tokens, we have to ensure our contract can handle it.
-
-# Heritance <a name="csw-heritance"></a>
 
 # Usefull links <a name="usefull-links"></a>
 -   [uups-proxies-tutorial-solidity-javascript](https://forum.openzeppelin.com/t/uups-proxies-tutorial-solidity-javascript/7786)
