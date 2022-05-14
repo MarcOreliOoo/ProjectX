@@ -12,7 +12,7 @@ Explaination of the `Commown Shared Wallet`'s design pattern
   -   [Features](#csw-features)
   -   [Heritance](#csw-heritance)
 
-# Main structure <a name="main-structure"></a>
+# Proxy pattern <a name="proxy-pattern"></a>
 The Commown Shared Wallet contracts is base on the proxy concept and composed of two contracts.
 
 ## Why a proxy contract ? <a name="why-a-proxy"></a>
@@ -66,6 +66,11 @@ Moreover, this would have been not so safe as a creation proxy pattern.
 That's the main reason why we decided to use a proxy factory in solidity, which will be deploy by our team, and be called by users when they would like to create a Commown Shared Wallet.
 
 ## CSW - Proxy factory contract <a name="csw-proxy-factory"></a>
+### Goal
+The proxy factory contract's goal is to create proxies for users willing to build a Commown Shared Wallet. It also manages the proxy list, and saves the bound between a user and his sahred wallet. All this is permited by states mapping : `mapping(address => address[]) public commownProxiesPerUser`,`mapping(address => uint256) public nbProxiesPerUser`.
+
+### Create proxy
+Proxy are created using the `ERC1967Proxy` from OpenZeppelin which will call the `initilize` function with a selector, to create an instance of an UUPS.
 
 ### For future updates
 At this time, the proxy factory is not updatable, that means, if we want to update it we have to replace it with another, and be sure that the storage of the first one is get for the new proxy factory. It would be nicer to have that proxy factory, itself updatable or at least to be able to change that address of the logic contract though it delegates call.
