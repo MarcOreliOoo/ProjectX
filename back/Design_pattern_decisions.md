@@ -109,6 +109,16 @@ As shown for the proxy upgrade, there are some access restriction guaranted by t
         _;
     }`
 
+# Features
+## Deposit/Withdraw Ether
+Providing ether to the wallet by the owners will permit future transactions. Obviously they can withdraw too.
+## Creation of a "Pocket"
+A pocket is a Struct defining a futur investment pocket. A pocket has to be defined by the participants and then will be executed.
+## ERC20, ERC721 and ERC1155 receiver
+As the pocket management will handle buying of different kind of tokens, we have to ensure our contract can handle it.
+
+# Heritance
+
 # Usefull links <a name="usefull-links"></a>
 -   [uups-proxies-tutorial-solidity-javascript](https://forum.openzeppelin.com/t/uups-proxies-tutorial-solidity-javascript/7786)
 -   [Github OpenZeppelino proxy](https://github.com/OpenZeppelin/openzeppelin-contracts/tree/master/contracts/proxy)
