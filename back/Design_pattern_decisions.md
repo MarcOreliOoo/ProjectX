@@ -8,7 +8,7 @@ Explaination of the `Commown Shared Wallet`'s design pattern
     -   [OpenZeppelin plugin](#oz-plugin)
     -   [CSW - Proxy factory contract](#csw-proxy-factory)
     -   [CSW - Logic contract](#csw-logic-contract)
--   [Access restriction](#focus-csw-logic-contract)
+-   [Access restriction pattern](#access-restriction)
   -   [Features](#csw-features)
   -   [Heritance](#csw-heritance)
 
@@ -87,15 +87,16 @@ The logic contract respect the standard define by OZ.
 
 For future updates of the logic contract, we have to force the OZ plugin to recognize the list of all proxies, as reals proxies of our logic contract, using the force update method provided in the sdk.
 
-# Focus on CSW logic contract <a name="focus-csw-logic-contract"></a>
-## Features <a name="csw-features"></a>
-### Receive / Withdraw ETH
-### Pocket
+# Access restriction pattern <a name="access-restriction"></a>
+# Access restriction pattern <a name="access-restriction"></a>
+# Access restriction pattern <a name="access-restriction"></a>
+# Access restriction pattern <a name="access-restriction"></a>
 
-## Heritance <a name="csw-heritance"></a>
+
+
+
 
 # Usefull links <a name="usefull-links"></a>
-
 -   [uups-proxies-tutorial-solidity-javascript](https://forum.openzeppelin.com/t/uups-proxies-tutorial-solidity-javascript/7786)
 -   [Github OpenZeppelino proxy](https://github.com/OpenZeppelin/openzeppelin-contracts/tree/master/contracts/proxy)
 -   [UUPS Modern walkthrough](https://r48b1t.medium.com/universal-upgrade-proxy-proxyfactory-a-modern-walkthrough-22d293e369cb)
