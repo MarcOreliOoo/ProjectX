@@ -52,14 +52,27 @@ Beacon is the one we hesitate to choose. UUPS is costless than transparent, as s
 See [beacon](https://blog.openzeppelin.com/the-state-of-smart-contract-upgrades/#beacons)
 
 ## OpenZeppelin plugin <a name="oz-plugin"></a>
-OpenZeppelin Upgrades plugin handle the difficulty of upgrading a smart contract. Indeed, there are some rules to follow.
+OpenZeppelin Upgrades plugin handles the difficulty of upgrading a smart contract. Indeed, there are some rules to follow, for exemple :
+- Storage has to be in the same order between first logic contract and the updated version
+- Only owner/admin can update the smart contract
+- You should not have any selfdestruct or delegatecall in your logic contract as it can induce the lost of the logic contract for all proxies
+- You should not have a constructor  
+For more guidelines, check the [usefull links](#usefull-links).
 
-solves this apparent contradiction by providing an easy to use, simple, robust, and opt-in upgrade mechanism for smart contracts that can be controlled by any type of governance, be it a multi-sig wallet, a simple address or a complex DAO.
 ### Frontend
-### For future updates
+So, the plugin mention above is very handy when you want to handle deployment or upgrade of proxies as it checks for all this rules and warns you in case of a danger.
+But, you can not use it in the front end. It only works for an admin, and you can not use it in the front, for example after a user action is triggered.
+Moreover, this would have been not so safe as a creation proxy pattern.
+That's the main reason why we decided to use a proxy factory in solidity, which will be deploy by our team, and be called by users when they would like to create a Commown Shared Wallet.
 
 ## CSW - Proxy factory contract <a name="csw-proxy-factory"></a>
+
+### For future updates
+At this time, the proxy factory is not updatable, that means, if we want to update it we have to replace it with another, and be sure that the storage of the first one is get for the new proxy factory. It would be nicer to have that proxy factory, itself updatable or at least to be able to change that address of the logic contract though it delegates call.
+
 ## CSW - Logic contract <a name="csw-logic-contract"></a>
+### For future updates
+For future updates of the logic contract, we have to force the OZ plugin to recognize the list of all proxies, as reals proxies of our logic contract, using the force update method provided in the sdk.
 
 # Focus on CSW logic contract <a name="focus-csw-logic-contract"></a>
 ## Features <a name="csw-features"></a>
