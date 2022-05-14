@@ -12,10 +12,10 @@ Explaination of the `Commown Shared Wallet`'s design pattern
   -   [Features](#csw-features)
   -   [Heritance](#csw-heritance)
 
-## Main structure <a name="main-structure"></a>
+# Main structure <a name="main-structure"></a>
 The Commown Shared Wallet contracts is base on the proxy concept and composed of two contracts.
 
-### Why a proxy contract ? <a name="why-a-proxy"></a>
+## Why a proxy contract ? <a name="why-a-proxy"></a>
 Contracts are immutable once deployed on the blockchain. That's the safety point every one wants to reach.
 But, on the other hand, sometimes, it would be nice to be able to update contract for bug fixing, or patching, or product improvements ask by your community (DAO like). Moreover, as our contract will handle money, it is preferable to have that possibility.
 Obviously, all the contract is not updatable and we have to follow some guide lines detailed above.
@@ -29,46 +29,46 @@ The process is always the same :
 The main contract contains all the logic of the dapp, and proxies contain state variables of the logic contract.
 So, the first step was to choose, which type of proxy we need.
 
-### Different type of proxies <a name="different-proxy"></a>
+## Different type of proxies <a name="different-proxy"></a>
 There are several proxy models, each adapted to different use cases.
 
-#### Clone
+### Clone
 The "clone" one is the cheapest one, but it's not really a proxy for upgradable purpose. The only thing it does is cloning contract functionality in an immutable way and delegate all calls to the main contract. So it does not allow for upgrade the logic contract. Thus, it is very usefull once you know taht our contract is safe and well designed or when your contract is mature and you are pretty sure it will not need any further upgrades.  
 See [eip-1167](https://eips.ethereum.org/EIPS/eip-1167)
 
-#### Transparent
+### Transparent
 The transparent proxy is based on the normal proxy pattern. It is called transparent by OpenZeppelin because of the "non conflit" tools it provides.
 It relies on the caller before the function selector, then the transparent proxy recognizes if it has to delegate the call to the main logic contract as if a user was calling a function, and vice versa when it's the owner of the proxy. No conflict then, it's "transparent".
 Downside of that proxy is each call requires an additional read from storage to load the admin address which is gas costly. Then, there is another pattern...  
 See [transparent proxies](https://blog.openzeppelin.com/the-state-of-smart-contract-upgrades/#transparent-proxies) and [eip-1967](https://eips.ethereum.org/EIPS/eip-1967)
 
-#### Universal
+### Universal
 Universal upgradeable proxiy standard or UUPS as it stands, comes from [eip-1822](https://eips.ethereum.org/EIPS/eip-1822). It is almost the same pattern than the transparent one, but it places upgrade logic in the implementation contract instead of the proxy itself. Then, it avoids the additionnal storage read.
 Since the proxy uses delegate calls, if the implementation address is define in the logic contract, then, it "is" in the proxy storage.  
 See [transparent vs uups](https://docs.openzeppelin.com/contracts/4.x/api/proxy#transparent-vs-uups) and [eip-1967](https://eips.ethereum.org/EIPS/eip-1967)
 
-#### Beacon
+### Beacon
 Beacon is the one we hesitate to choose. UUPS is costless than transparent, as seen above, because of the upgradeable logic is in the logic contract. But, when several proxies are deployed, if you want to upgrade the address of the logic contract, you have to upgrade through all proxies. Beacon is a solution for this problem, but beacon is also costly than UUPS. So we have chosen UUPS.  
 See [beacon](https://blog.openzeppelin.com/the-state-of-smart-contract-upgrades/#beacons)
 
-### OpenZeppelin plugin <a name="oz-plugin"></a>
+## OpenZeppelin plugin <a name="oz-plugin"></a>
 OpenZeppelin Upgrades plugin handle the difficulty of upgrading a smart contract. Indeed, there are some rules to follow.
 
 solves this apparent contradiction by providing an easy to use, simple, robust, and opt-in upgrade mechanism for smart contracts that can be controlled by any type of governance, be it a multi-sig wallet, a simple address or a complex DAO.
-#### Frontend
-#### For future updates
+### Frontend
+### For future updates
 
-### CSW - Proxy factory contract <a name="csw-proxy-factory"></a>
-### CSW - Logic contract <a name="csw-logic-contract"></a>
+## CSW - Proxy factory contract <a name="csw-proxy-factory"></a>
+## CSW - Logic contract <a name="csw-logic-contract"></a>
 
-## Focus on CSW logic contract <a name="focus-csw-logic-contract"></a>
-### Features <a name="csw-features"></a>
-#### Receive / Withdraw ETH
-#### Pocket
+# Focus on CSW logic contract <a name="focus-csw-logic-contract"></a>
+## Features <a name="csw-features"></a>
+### Receive / Withdraw ETH
+### Pocket
 
-### Heritance <a name="csw-heritance"></a>
+## Heritance <a name="csw-heritance"></a>
 
-## Usefull links <a name="usefull-links"></a>
+# Usefull links <a name="usefull-links"></a>
 
 -   [uups-proxies-tutorial-solidity-javascript](https://forum.openzeppelin.com/t/uups-proxies-tutorial-solidity-javascript/7786)
 -   [Github OpenZeppelino proxy](https://github.com/OpenZeppelin/openzeppelin-contracts/tree/master/contracts/proxy)
