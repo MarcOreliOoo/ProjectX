@@ -76,7 +76,15 @@ Proxy are created using the `ERC1967Proxy` from OpenZeppelin which will call the
 At this time, the proxy factory is not updatable, that means, if we want to update it we have to replace it with another, and be sure that the storage of the first one is get for the new proxy factory. It would be nicer to have that proxy factory, itself updatable or at least to be able to change that address of the logic contract though it delegates call.
 
 ## CSW - Logic contract <a name="csw-logic-contract"></a>
+### Being a proxy
+The logic contract respect the standard define by OZ.
+- `function initialize(address[] memory _owners, uint8 _confirmationNeeded) public initializer` this is the function which is called by the proxy factory when initializing a new Commown Shared Wallet. This is a "constructor" like, and guaranted to be called once with the modifier `initializer`. Inside we have the `__Ownable_init()` and the `__UUPSUpgradeable_init()` to ensure it is also initialized.
+- The constructor is empty and annoted with the custom natspec for the OZ plugin
+- As it is an UUPS logic contract, it's mandatory to have the `_authorizeUpgrade(address newImplementation) internal override onlyOwner` function to ensure the futur updates possible
+
 ### For future updates
+- As it is an UUPS logic contract the futur updates contract also has to have the `_authorizeUpgrade(address newImplementation) internal override onlyOwner` function.
+
 For future updates of the logic contract, we have to force the OZ plugin to recognize the list of all proxies, as reals proxies of our logic contract, using the force update method provided in the sdk.
 
 # Focus on CSW logic contract <a name="focus-csw-logic-contract"></a>
