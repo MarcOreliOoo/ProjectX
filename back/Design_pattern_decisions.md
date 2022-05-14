@@ -8,7 +8,7 @@ Explaination of the `Commown Shared Wallet`'s design pattern
     -   [OpenZeppelin plugin](#oz-plugin)
     -   [CSW - Proxy factory contract](#csw-proxy-factory)
     -   [CSW - Logic contract](#csw-logic-contract)
--   [Access restriction pattern](#access-restriction)
+-   [Security and behavioral pattern](#security-pattern)
   -   [Features](#csw-features)
   -   [Heritance](#csw-heritance)
 
@@ -87,13 +87,25 @@ The logic contract respect the standard define by OZ.
 
 For future updates of the logic contract, we have to force the OZ plugin to recognize the list of all proxies, as reals proxies of our logic contract, using the force update method provided in the sdk.
 
-# Access restriction pattern <a name="access-restriction"></a>
-# Access restriction pattern <a name="access-restriction"></a>
-# Access restriction pattern <a name="access-restriction"></a>
-# Access restriction pattern <a name="access-restriction"></a>
+# Security and behavioral pattern <a name="security-pattern"></a>
+## Guard check, behavioral check and state machine
+Guard check and state machine are used almost every where, and very often, the first one to check all entry params when required and the second one to represent several stages.
+- Guard check : `require(_owners[i] != address(0), "owner is address(0)"); //Not the 0 address`
+- State machine : `modifier pocketNotExecuted(uint256 _pocketID) {
+        require(
+            pockets[_pocketID].pStatus != PocketStatus.Executed,
+            "Pocket already executed"
+        );
+        _;
+    }`
+-  Behavioral : `require(_owners.length > 0, "owners required")`
 
-
-
+## Access restriction
+As shown for the proxy upgrade, there are some access restriction guaranted by the modifier onlyOwner. For the rest of functions, there is protection of access called : commownOwners. These are addresses of the owners define while creating a Commown Shared Wallet.
+`modifier isCommownOwner(address _sender) {
+        require(isOwner[_sender], "not an owner");
+        _;
+    }`
 
 
 # Usefull links <a name="usefull-links"></a>
