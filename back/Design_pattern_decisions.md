@@ -9,8 +9,10 @@ Explaination of the `Commown Shared Wallet`'s design pattern
     -   [CSW - Proxy factory contract](#csw-proxy-factory)
     -   [CSW - Logic contract](#csw-logic-contract)
 -   [Security and behavioral pattern](#security-pattern)
-  -   [Features](#csw-features)
-  -   [Heritance](#csw-heritance)
+    -   [Guard check, behavioral check and state machine](#detailed-pattern)
+    -   [Access restriction](#access-pattern)
+-   [Features](#csw-features)
+-   [Heritance](#csw-heritance)
 
 # Proxy pattern <a name="proxy-pattern"></a>
 The Commown Shared Wallet contracts is base on the proxy concept and composed of two contracts.
@@ -88,7 +90,7 @@ The logic contract respect the standard define by OZ.
 For future updates of the logic contract, we have to force the OZ plugin to recognize the list of all proxies, as reals proxies of our logic contract, using the force update method provided in the sdk.
 
 # Security and behavioral pattern <a name="security-pattern"></a>
-## Guard check, behavioral check and state machine
+## Guard check, behavioral check and state machine <a name="detailed-pattern"></a>
 Guard check and state machine are used almost every where, and very often, the first one to check all entry params when required and the second one to represent several stages.
 - Guard check : `require(_owners[i] != address(0), "owner is address(0)"); //Not the 0 address`
 - State machine : `modifier pocketNotExecuted(uint256 _pocketID) {
@@ -100,13 +102,12 @@ Guard check and state machine are used almost every where, and very often, the f
     }`
 -  Behavioral : `require(_owners.length > 0, "owners required")`
 
-## Access restriction
-As shown for the proxy upgrade, there are some access restriction guaranted by the modifier onlyOwner. For the rest of functions, there is protection of access called : commownOwners. These are addresses of the owners define while creating a Commown Shared Wallet.
+## Access restriction <a name="access-pattern"></a>
+As shown for the proxy upgrade, there are some access restriction guaranted by the modifier onlyOwner. For the rest of functions, there is protection of access called : commownOwners. These are addresses of the owners define while creating a Commown Shared Wallet.  
 `modifier isCommownOwner(address _sender) {
         require(isOwner[_sender], "not an owner");
         _;
     }`
-
 
 # Usefull links <a name="usefull-links"></a>
 -   [uups-proxies-tutorial-solidity-javascript](https://forum.openzeppelin.com/t/uups-proxies-tutorial-solidity-javascript/7786)
