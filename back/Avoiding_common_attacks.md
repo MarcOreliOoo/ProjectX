@@ -12,7 +12,7 @@ Legend:
 List :
 -   :white_square_button: Saving unencrypted confidential data on the blockchain 
 -   :white_square_button: Integer overflow and underflow (solved since solidity 0.8)
--   :white_check_mark: Unchecked call return values
+-   :white_check_mark: Unchecked call return values  
      `require(success, "transaction failed");`
 -   Re-entrancy attacks
 -   Denial Of Service attacks
