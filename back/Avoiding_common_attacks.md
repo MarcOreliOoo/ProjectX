@@ -36,38 +36,53 @@ require(success, "transaction failed"); //Require the transactoin success or rev
 ```
 :white_check_mark: Done
 
-### :white_square_button:Denial Of Service attacks
+### Denial Of Service attacks
+:white_square_button:: To check
 
-### :white_square_button:Front Running attacks
+### Front Running attacks
+:white_square_button:: To check
 
-### :white_square_button:Replay signatures attacks
+### Replay signatures attacks
+:white_square_button:: To check
 
-### :white_square_button:Function default visibility
+### Function default visibility
+:white_square_button:: To check
 
-### :white_square_button:Floating pragma
+### Floating pragma
+:white_square_button:: To check
 
-### :white_square_button:Loop through long arrays
+### Loop through long arrays
+:white_square_button:: To check
 
-### :white_square_button:Wrong inheritance
+### Wrong inheritance
+:white_square_button:: To check
 
-### :white_square_button:Unexpected ether balance
+### Unexpected ether balance
+:white_square_button:: To check
 
-### :white_square_button:Access outside array limits
+### Access outside array limits
+:white_square_button:: To check
 
-### :white_square_button:Delegate calls to untrusted sources
+### Delegate calls to untrusted sources
+:white_square_button:: To check
 
-### :white_square_button:(Regular) calls to untrusted sources
+### (Regular) calls to untrusted sources
+:white_square_button:: To check
 
-### :white_square_button:Insecure randomness
+### Insecure randomness
+:white_square_button:: To check
 
-### :white_square_button:Block Timestamp manipulation
+### Block Timestamp manipulation
+:white_square_button:: To check
 
-### :white_square_button:Contracts with zero code
+### Contracts with zero code
+:white_square_button:: To check
 
-### :white_square_button:Uninitialized Storage Pointers
+### Uninitialized Storage Pointers
+:white_square_button:: To check
 
-### :white_square_button:Unupgradable smart contracts
-
+### Unupgradable smart contracts
+:white_square_button:: To check
 
 
 ---
