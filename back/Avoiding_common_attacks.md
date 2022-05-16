@@ -41,30 +41,32 @@ require(success, "transaction failed"); //Require the transactoin success or rev
 CF Constructor : Todo
 
 ### Front Running attacks
-We don't have a menacism of rewards for being the first at something for example.
+We don't have a menacism of rewards for being the first at something for example.  
 :white_check_mark: Done
 
 ### Replay signatures attacks
-At the time of the POC, we do not yet have the signature off chain module. So we will probably exposed to that attack and should take care of it. A common solution is adding a nonce per account to a signed message and asap the message is signed, it increments the nonce. See [eip-712](https://eips.ethereum.org/EIPS/eip-712)
+At the time of the POC, we do not yet have the signature off chain module. So we will probably exposed to that attack and should take care of it. A common solution is adding a nonce per account to a signed message and asap the message is signed, it increments the nonce.  
+See [eip-712](https://eips.ethereum.org/EIPS/eip-712)  
 :ballot_box_with_check: To check when implementing
 
 ### Function default visibility
-Function internals are for proxy upgrade, or technical function like the initialize are covered by modifier.
+Function internals are for proxy upgrade, or technical function like the initialize are covered by modifier.  
 :white_check_mark: Done
 
 ### Floating pragma
-Pragma is fixed at 0.8.13.
+Pragma is fixed at 0.8.13.  
 :white_check_mark: Done
 
 ### Loop through long arrays
 :white_square_button: To check
 
 ### Wrong inheritance
-Inheritance from most generic to most specific : Initializable, UUPSUpgradeable, OwnableUpgradeable, IERC721Receiver to avoid linearization problem.
+Inheritance from most generic to most specific : Initializable, UUPSUpgradeable, OwnableUpgradeable, IERC721Receiver to avoid linearization problem.  
 :white_check_mark: Done
 
 ### Unexpected ether balance
-:white_square_button: To check
+We would have to add an ether balance uint inside the contrat and compare it each time we do a withdraw to the real ether balance. If different, that means we have this unexpected ether balance. Althoug, our contract being upgradable we would be able to withdram from it.  
+:white_check_mark: Done
 
 ### Access outside array limits
 :white_square_button: To check
