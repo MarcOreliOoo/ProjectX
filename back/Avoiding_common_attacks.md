@@ -68,29 +68,25 @@ Inheritance from most generic to most specific : Initializable, UUPSUpgradeable,
 We would have to add an ether balance uint inside the contrat and compare it each time we do a withdraw to the real ether balance. If different, that means we have this unexpected ether balance. Althoug, our contract being upgradable we would be able to withdram from it.  
 :white_check_mark: Done
 
-### Access outside array limits
-:white_square_button: To check
-
 ### Delegate calls to untrusted sources
-:white_square_button: To check
+The delegate call is used only in the proxy, and not used in the logic contract. We have to check on that in the byte code of a pocket, when we will execute the transaction to ensure we do not execute a delegate call "bytes coded".
+So for now, :white_check_mark: Done, for after :ballot_box_with_check: To check when implementing
 
 ### (Regular) calls to untrusted sources
-:white_square_button: To check
+We do not have call for external sources yet.  
+:white_check_mark: Done
 
 ### Insecure randomness
-:white_square_button: To check
+We do not use randomness.  
+:white_check_mark: Done
 
 ### Block Timestamp manipulation
-:white_square_button: To check
+We do not use block.timestamp in a mecanism yet, and if so, we will respect the `15sec` rule.  
+:white_check_mark: Done
 
 ### Contracts with zero code
-:white_square_button: To check
-
-### Uninitialized Storage Pointers
-:white_square_button: To check
-
-### Unupgradable smart contracts
-:white_square_button: To check
+We use a whitelist system because of the definition of owners, so not really concern at the time.  
+:white_check_mark: Done
 
 
 ---
