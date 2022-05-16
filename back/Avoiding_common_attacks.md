@@ -73,7 +73,7 @@ We would have to add an ether balance uint inside the contrat and compare it eac
 :white_check_mark: Done
 
 ### Delegate calls to untrusted sources
-The delegate call is used only in the proxy, and not used in the logic contract. We have to check on that in the byte code of a pocket, when we will execute the transaction to ensure we do not execute a delegate call "bytes coded".
+The delegate call is used only in the proxy, and not used in the logic contract. We have to check on that in the byte code of a pocket, when we will execute the transaction to ensure we do not execute a delegate call "bytes coded".  
 So for now, :white_check_mark: Done, for after :ballot_box_with_check: To check when implementing
 
 ### (Regular) calls to untrusted sources
