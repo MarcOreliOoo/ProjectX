@@ -38,24 +38,30 @@ require(success, "transaction failed"); //Require the transactoin success or rev
 
 ### Denial Of Service attacks
 :white_square_button: To check
+CF Constructor : Todo
 
 ### Front Running attacks
-:white_square_button: To check
+We don't have a menacism of rewards for being the first at something for example.
+:white_check_mark: Done
 
 ### Replay signatures attacks
-:white_square_button: To check
+At the time of the POC, we do not yet have the signature off chain module. So we will probably exposed to that attack and should take care of it. A common solution is adding a nonce per account to a signed message and asap the message is signed, it increments the nonce. See [eip-712](https://eips.ethereum.org/EIPS/eip-712)
+:ballot_box_with_check: To check when implementing
 
 ### Function default visibility
-:white_square_button: To check
+Function internals are for proxy upgrade, or technical function like the initialize are covered by modifier.
+:white_check_mark: Done
 
 ### Floating pragma
-:white_square_button: To check
+Pragma is fixed at 0.8.13.
+:white_check_mark: Done
 
 ### Loop through long arrays
 :white_square_button: To check
 
 ### Wrong inheritance
-:white_square_button: To check
+Inheritance from most generic to most specific : Initializable, UUPSUpgradeable, OwnableUpgradeable, IERC721Receiver to avoid linearization problem.
+:white_check_mark: Done
 
 ### Unexpected ether balance
 :white_square_button: To check
