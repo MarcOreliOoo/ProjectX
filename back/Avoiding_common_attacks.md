@@ -36,6 +36,10 @@ require(success, "transaction failed"); //Require the transactoin success or rev
 ```
 :white_check_mark: Done
 
+### Oracle manipulation
+We do not use oracle at the time. But we will in the futur so we have to check on that. A way would be to use Oracle call off chain, and to avoid centralized oracle call to call several of them for the same transaction.
+:white_check_mark: Done
+
 ### Denial Of Service attacks
 :white_square_button: To check
 CF Constructor : Todo
