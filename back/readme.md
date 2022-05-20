@@ -45,3 +45,12 @@ Ressources :
 Mythril :
 * if current dir is `C:\Users\Aurélien\Documents\HardhatProjects\01_Commown\contracts-dapps\contracts>` run `docker run -v ${pwd}:/contracts mythril/myth analyze /contracts/CommownSW.sol`
 * if current dir is ` C:\Users\Aurélien\Documents\HardhatProjects\01_Commown\contracts-dapps>` run `docker run -v ${pwd}:/contracts-dapps mythril/myth analyze /contracts-dapps/contracts/CommownSW.sol`
+
+```{
+	"remappings": [ "@openzeppelin/=/contracts-dapps/node_modules/@openzeppelin/" ],
+	 "optimizer": {
+	   "enabled": true
+	 }
+   }```
+ ```C:\Users\Aurélien\Documents\HardhatProjects\01_Commown\contracts-dapps> docker run -v ${pwd}:/contracts-dapps mythril/myth analyze /contracts-dapps/contracts/CommownSW.sol --solc-json /contracts-dapps/contracts/test_file.json
+The analysis was completed successfully. No issues were detected.```
