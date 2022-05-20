@@ -40,3 +40,7 @@ Todo AAL :
 Ressources :
 * OZ Deploying more efficient proxy https://www.youtube.com/watch?v=kWUDTZhxKZI
 * https://r48b1t.medium.com/universal-upgrade-proxy-proxyfactory-a-modern-walkthrough-22d293e369cb****
+
+
+Mythril :
+if current dir is `C:\Users\Aurélien\Documents\HardhatProjects\01_Commown\contracts-dapps\contracts>` run `docker run -v ${pwd}:/contracts mythril/myth analyze /contracts/CommownSW.sol`
