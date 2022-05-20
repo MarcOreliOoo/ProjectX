@@ -43,4 +43,5 @@ Ressources :
 
 
 Mythril :
-if current dir is `C:\Users\Aurélien\Documents\HardhatProjects\01_Commown\contracts-dapps\contracts>` run `docker run -v ${pwd}:/contracts mythril/myth analyze /contracts/CommownSW.sol`
+* if current dir is `C:\Users\Aurélien\Documents\HardhatProjects\01_Commown\contracts-dapps\contracts>` run `docker run -v ${pwd}:/contracts mythril/myth analyze /contracts/CommownSW.sol`
+* if current dir is ` C:\Users\Aurélien\Documents\HardhatProjects\01_Commown\contracts-dapps>` run `docker run -v ${pwd}:/contracts-dapps mythril/myth analyze /contracts-dapps/contracts/CommownSW.sol`
